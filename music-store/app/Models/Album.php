@@ -13,7 +13,7 @@ class Album extends Model
     protected $fillable = [
         'title',
         'artwork',
-        'genre',
+        'genre'
     ];
     
 
