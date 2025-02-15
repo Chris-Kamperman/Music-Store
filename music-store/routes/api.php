@@ -5,17 +5,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\UserController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Public Routes For Loging In And Registering
+Route::post('/register', UserController::class . '@register');
+Route::post('/login', UserController::class . '@login');
 
-Route::resource('albums', AlbumController::class);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', UserController::class . '@logout');
 
-Route::get('/artists', ArtistController::class . '@index');
-Route::get('/artists/{id}', ArtistController::class . '@show');
-Route::post('/artists', ArtistController::class . '@store');
 
-Route::get('/songs', SongController::class . '@index');
-Route::get('/songs/{id}', SongController::class . '@show');
-Route::post('/songs', SongController::class . '@store');
+    // Protected Routes For Albums, Artists And Songs
+    Route::resource('albums', AlbumController::class);
+
+    Route::get('/artists', ArtistController::class . '@index');
+    Route::get('/artists/{id}', ArtistController::class . '@show');
+
+    Route::get('/songs', SongController::class . '@index');
+    Route::get('/songs/{id}', SongController::class . '@show');
+    Route::post('/songs', SongController::class . '@store');
+
+    Route::post('/artists', ArtistController::class . '@store');
+});
