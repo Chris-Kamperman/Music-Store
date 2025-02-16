@@ -43,12 +43,25 @@ class AlbumController extends Controller
     }
 
     /**
+     * Add the album in question to the user's collection.
+     */
+    public function buyAlbum(Request $request, string $id)
+    {
+        $userId = $request->user()->id;
+        $album = Album::FindOrFail($id);
+
+        // Add the album to the user's collection, but only if it's not already there
+        $album->users()->syncWithoutDetaching($userId);
+        return response(200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         Album::destroy($id);
 
-        return response()->json(null, 204);
+        return response(204);
     }
 }

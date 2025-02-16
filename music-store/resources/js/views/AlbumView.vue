@@ -26,11 +26,22 @@
 
 <template>
     <div class="flex flex-col items-center justify-center mx-80">
-        <Album :album="album" />
-        <div class="relative flex flex-col md:flex-row bg-gray-300 shadow-sm border border-slate-200 rounded-lg w-1/2 justify-center">
-            <div v-for="song in album.songs"> 
-                {{ song.title }} 
-            </div>
+        <Album :album="album" :allowPurchase="true" />
+        <div class="relative bg-gray-300 shadow-sm border border-slate-200 rounded-lg w-1/2">
+            <table class="table-auto w-full">  
+                <thead>    
+                    <tr>      
+                        <th class="w-1/2 text-center">Song</th>      
+                        <th class="w-1/2 text-center">Artist</th>      
+                    </tr>  
+                </thead>  
+                <tbody>    
+                    <tr v-for="song in album.songs" :key="song.id">      
+                        <td class="text-center">{{ song.title }}</td>      
+                        <td class="text-center">{{ album.artist.name }}</td>      
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

@@ -1,5 +1,29 @@
 <script setup>
-    const props = defineProps(['album']);
+    import axios from 'axios';
+    import { user } from '../SharedData';
+
+    const props = defineProps({
+        album: Object,
+        allowPurchase: {
+            type: Boolean,
+            default: false
+        }
+    });
+
+    const buy = async () => {
+        console.log("oi")
+        try {
+            const response = await axios.post(`/api/albums/${props.album.id}/purchase`, {}, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            });
+
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 </script>
 
 <template>
@@ -12,10 +36,15 @@
                 class="h-full w-full rounded-md md:rounded-lg object-cover"
                 />
             </div>
-            <div class="p-6">
+            <div class="p-6 flex flex-col justify-center">
                 <h4 class="mb-2 text-slate-800 text-xl font-semibold"> {{ album.title }} </h4>
                 <h5 class="mb-2 text-slate-800 text-sm font-semibold"> Artist: {{ album.artist.name }} </h5>
-                <div class="mb-4 rounded-full bg-teal-900 py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center"> {{ album.genre }} </div>
+                <div class="mb-2 text-slate-800 text-sm font-semibold"> Genre: {{ album.genre }} </div>
+                <div v-if="album.songs" class="mb-2 text-slate-800 text-sm font-semibold"> Songs: {{ album.songs.length }} </div>
+            </div>
+
+            <div v-if="allowPurchase" @click="buy" class="p-6 flex flex-col justify-center ml-auto bg-gray-400">
+                Buy
             </div>
         </div> 
     </RouterLink>
