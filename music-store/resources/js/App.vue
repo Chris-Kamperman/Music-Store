@@ -1,3 +1,11 @@
+<script setup>
+import NavBar from './components/NavBar.vue';
+
+
+
+</script>
+
 <template>
-    <h2>gast</h2>
+    <NavBar />
+    <router-view />
 </template>
