@@ -12,15 +12,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Album::with('artist')->get();
     }
 
     /**
@@ -36,15 +28,7 @@ class AlbumController extends Controller
      */
     public function show(string $id)
     {
-        return Album::FindOrFail($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return Album::with(['artist', 'songs'])->FindOrFail($id);
     }
 
     /**

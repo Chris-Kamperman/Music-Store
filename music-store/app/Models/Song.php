@@ -15,6 +15,11 @@ class Song extends Model
         'album_id'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);

@@ -8,21 +8,26 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: () => import('./views/HomeView.vue'),
-            meta: { requiresAuth: true, requiresGuest: false }
+            meta: { requiresAuth: true }
         },
         {
             path: '/login',
             name: 'login',
             component: () => import('./views/LoginView.vue'),
-            meta: { requiresAuth: false, requiresGuest: true }
+            meta: { requiresAuth: false }
         },
         {
             path: '/register',
             name: 'register',
             component: () => import('./views/RegisterView.vue'),
-            meta: { requiresAuth: false, requiresGuest: true }
+            meta: { requiresAuth: false }
         },
-
+        {
+            path: '/album/:id',
+            name: 'album',
+            component: () => import('./views/AlbumView.vue'),
+            meta: { requiresAuth: true }
+        }
 
     ]
 });
