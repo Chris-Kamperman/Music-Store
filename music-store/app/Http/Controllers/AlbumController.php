@@ -12,7 +12,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::with('artist')->get();
+        return Album::with(['artist', 'songs'])->get();
     }
 
     /**
@@ -53,6 +53,16 @@ class AlbumController extends Controller
         // Add the album to the user's collection, but only if it's not already there
         $album->users()->syncWithoutDetaching($userId);
         return response(200);
+    }
+
+    /**
+     * Get all user albums.
+     */
+    public function getUserAlbums(Request $request) {
+        $userId = $request->user()->id;
+        return Album::with(['artist', 'songs'])->whereHas('users', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
     }
 
     /**

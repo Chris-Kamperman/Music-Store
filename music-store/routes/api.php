@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Protected Routes For Albums, Artists And Songs
     Route::resource('albums', AlbumController::class);
     Route::post('/albums/{id}/purchase', AlbumController::class . '@buyAlbum');
+    Route::get('/user/albums', AlbumController::class . '@getUserAlbums');
 
     Route::get('/artists', ArtistController::class . '@index');
     Route::get('/artists/{id}', ArtistController::class . '@show');

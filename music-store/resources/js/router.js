@@ -27,8 +27,17 @@ const router = createRouter({
             name: 'album',
             component: () => import('./views/AlbumView.vue'),
             meta: { requiresAuth: true }
+        },
+        {
+            path: '/owned-albums',
+            name: 'owned-albums',
+            component: () => import('./views/OwnedAlbumsView.vue'),
+            meta: { requiresAuth: true }
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            component: () => import('./views/NotFoundView.vue')
         }
-
     ]
 });
 
