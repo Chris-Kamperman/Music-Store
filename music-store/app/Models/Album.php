@@ -16,7 +16,9 @@ class Album extends Model
     protected $fillable = [
         'title',
         'artwork',
-        'genre'
+        'genre',
+
+        'artist_id'
     ];
 
     protected $hidden = [

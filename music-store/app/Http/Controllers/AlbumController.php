@@ -20,7 +20,24 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        return Album::create($request->all());
+        $request->validate([
+            'title' => 'required',
+            'artist_id' => 'required|exists:artists,id',
+            'genre' => 'required',
+            'artwork' => 'required|image',
+        ]);
+
+        $filepath = $request->file('artwork')->store('albums', 'public');
+        $request->replace(array_merge($request->all(), ['artwork' => $filepath]));
+
+        $data = [
+            'title' => $request->title,
+            'artist_id' => $request->artist_id,
+            'genre' => $request->genre,
+            'artwork' => $filepath,
+        ];
+
+        return Album::create($data)->load('artist');
     }
 
     /**

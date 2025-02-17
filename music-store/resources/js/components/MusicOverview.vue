@@ -36,9 +36,8 @@
         <div v-for="album in wantedAlbums" class="bg-blue-300 w-1/1 p-4 m-4 flex flex-col rounded-lg shadow-xl">
             <RouterLink :to="'/album/' + album.id" class="flex flex-row">
                 <div class="grid place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-                    <img class="object-cover object-center w-full rounded-lg shadow-xl shadow-blue-gray-900/50"
-                        :src="album.cover"
-                        alt="Album cover" />
+                    <img class="object-cover object-center w-full rounded-lg shadow-xl shadow-blue-gray-900/50" 
+                    :src="'/storage/' + album.artwork" alt="Album cover" />
                 </div>
                 <div>
                     <h1>Title: {{ album.title }}</h1>
