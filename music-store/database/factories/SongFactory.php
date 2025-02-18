@@ -21,6 +21,7 @@ class SongFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'album_id' => Album::factory(),
+            'file' => "songs/default.mp3",
         ];
     }
 }

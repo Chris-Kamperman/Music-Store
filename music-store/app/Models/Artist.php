@@ -13,6 +13,11 @@ class Artist extends Model
         'name'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function albums(): HasMany {
         return $this->hasMany(Albums::class);
     }

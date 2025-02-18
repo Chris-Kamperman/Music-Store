@@ -12,15 +12,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Album::with(['artist', 'songs'])->get();
     }
 
     /**
@@ -28,43 +20,55 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        return Album::create($request->all());
+        $request->validate([
+            'title' => 'required',
+            'artist_id' => 'required|exists:artists,id',
+            'genre' => 'required',
+            'artwork' => 'required|file|image',
+        ]);
+
+        $filepath = $request->file('artwork')->store('albums', 'public');
+        $data = [
+            'title' => $request->title,
+            'artist_id' => $request->artist_id,
+            'genre' => $request->genre,
+            'artwork' => $filepath,
+        ];
+
+        return Album::create($data)->load('artist');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        return Album::FindOrFail($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $album = Album::FindOrFail($id);
-        $album->update($request->all());
+        $album = Album::with(['artist', 'songs'])->FindOrFail($id);
+        $album->owned = $album->users()->where('user_id', $request->user()->id)->exists();
 
         return $album;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Add the album in question to the user's collection.
      */
-    public function destroy(string $id)
+    public function buyAlbum(Request $request, string $id)
     {
-        Album::destroy($id);
+        $album = Album::FindOrFail($id);
+        $userId = $request->user()->id;
 
-        return response()->json(null, 204);
+        // Add the album to the user's collection, but only if it's not already there
+        $album->users()->syncWithoutDetaching($userId);
+        return response(200);
+    }
+
+    /**
+     * Get all user albums.
+     */
+    public function getUserAlbums(Request $request) {
+        $userId = $request->user()->id;
+        return Album::with(['artist', 'songs'])->whereHas('users', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
     }
 }

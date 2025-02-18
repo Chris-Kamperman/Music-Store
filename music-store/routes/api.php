@@ -6,6 +6,8 @@ use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\EnsureSongOwned;
 
 // Public Routes For Loging In And Registering
 Route::post('/register', UserController::class . '@register');
@@ -15,15 +17,27 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', UserController::class . '@logout');
 
 
-    // Protected Routes For Albums, Artists And Songs
-    Route::resource('albums', AlbumController::class);
+    // Album Routes
+    Route::get('/albums', AlbumController::class . '@index');
+    Route::get('/albums/{id}', AlbumController::class . '@show');
+    Route::post('/albums/{id}/purchase', AlbumController::class . '@buyAlbum');
+    Route::get('/user/albums', AlbumController::class . '@getUserAlbums');
 
+    // Artist Routes
     Route::get('/artists', ArtistController::class . '@index');
-    Route::get('/artists/{id}', ArtistController::class . '@show');
 
+    // Song Routes
     Route::get('/songs', SongController::class . '@index');
     Route::get('/songs/{id}', SongController::class . '@show');
-    Route::post('/songs', SongController::class . '@store');
+    Route::get('/songs/{id}/download', SongController::class . '@download')
+        ->middleware(EnsureSongOwned::class);
 
-    Route::post('/artists', ArtistController::class . '@store');
+    // Routes For Administrators
+    Route::group(['middleware' => EnsureAdmin::class], function () {
+        Route::Post('/albums', AlbumController::class . '@store');
+
+        Route::post('/artists', ArtistController::class . '@store');
+
+        Route::post('/songs', SongController::class . '@store');
+    });
 });

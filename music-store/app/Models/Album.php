@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Album extends Model
 {
@@ -13,12 +16,19 @@ class Album extends Model
     protected $fillable = [
         'title',
         'artwork',
-        'genre'
+        'genre',
+
+        'artist_id'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
     
 
     public function songs(): HasMany {
-        return $this->hasMany(Songs::class);
+        return $this->hasMany(Song::class);
     }
 
     public function artist(): BelongsTo {
