@@ -20,7 +20,29 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        return Song::create($request->all());
+        $request->validate([
+            'title' => 'required',
+            'album_id' => 'required|exists:albums,id',
+            'file' => 'required|file|mimes:mp3',
+        ]);
+
+        $filepath = $request->file('file')->store('songs', 'local');
+
+        $data = [
+            'title' => $request->title,
+            'album_id' => $request->album_id,
+            'file' => $filepath,
+        ];
+
+        return Song::create($data);
+    }
+
+    /**
+     * Download the specified resource.
+     */
+    public function download(string $id) {
+        $song = Song::findOrFail($id);
+        return response()->download(storage_path('app/private/' . $song->file), $song->title . '.mp3');
     }
 
     /**

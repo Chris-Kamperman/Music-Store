@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/songs', SongController::class . '@index');
     Route::get('/songs/{id}', SongController::class . '@show');
     Route::post('/songs', SongController::class . '@store');
+    Route::get('/songs/{id}/download', SongController::class . '@download');
 
     Route::post('/artists', ArtistController::class . '@store');
 });

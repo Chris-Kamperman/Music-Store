@@ -20,7 +20,7 @@ class AlbumFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'artist_id' => Artist::factory(),
-            'artwork' => $this->faker->imageUrl(),
+            'artwork' => 'albums/default.jpg',
             'genre' => $this->faker->word(),
         ];
     }

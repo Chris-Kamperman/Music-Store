@@ -8,7 +8,7 @@
     const songs = ref([]);
 
     const newArtist = ref('');
-    const newSong = ref('');
+    const newSong = ref({'title': '', 'album_id': null, 'file': null});
     const newAlbum = ref({'title': '', 'artist': null, 'genre': '', 'artwork': null});
 
     const addArtist = async () => {
@@ -30,10 +30,6 @@
         } catch (error) {
             console.error(error);
         }
-    };
-
-    const addSong = async () => {
-
     };
 
     const addAlbum = async () => {
@@ -62,6 +58,29 @@
         }
     };
 
+    const addSong = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('title', newSong.value.title);
+            formData.append('album_id', newSong.value.album_id);
+            formData.append('file', newSong.value.file);
+
+            const headers = { 
+                headers: { 
+                    Authorization: `Bearer ${user.token}`,
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                } 
+            };
+
+            const result = await axios.post('/api/songs', formData, headers);
+            console.log(result.data);
+            songs.value.push(result.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     onMounted(async () => {
         const headers = { 
             headers: { 
@@ -79,7 +98,7 @@
             songs.value = songsResult.data;
             albums.value = albumsResult.data;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     });
 </script>
@@ -145,7 +164,37 @@
             </table>
         </div> 
 
-
+        <!-- Songs -->
+        <div class="w-full">
+            <div>
+                <h1 class="text-2xl font-bold">Add a new song</h1>
+                <form @submit.prevent="addSong" action="#" class="flex items-center py-2">
+                    <input v-model="newSong.title" type="text" required class="border border-slate-400 rounded-lg h-8" placeholder="Title" />
+                    <select v-model="newSong.album_id" required class="border border-slate-400 rounded-lg h-8">
+                        <option disabled selected value="">Select an album</option>
+                        <option v-for="album in albums" :key="album.id" :value="album.id">{{ album.title }}</option>
+                    </select>
+                    <input @change="newSong.file = $event.target.files[0]" type="file" accept="audio/mp3" required class="border border-slate-400 rounded-lg h-8" placeholder="Artwork" />
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg h-8 flex items-center justify-center">Add</button>
+                </form>
+            </div>
+            <table class="table-auto w-full border border-slate-400 rounded-lg">  
+                <thead>    
+                    <tr>      
+                        <th class="w-1/4 text-center">Id</th>
+                        <th class="w-1/4 text-center">Title</th>
+                        <th class="w-1/4 text-center">Album Id</th>
+                    </tr>  
+                </thead>  
+                <tbody>    
+                    <tr v-for="song in songs" :key="song.id">      
+                        <td class="text-center">{{ song.id }}</td>      
+                        <td class="text-center">{{ song.title }}</td>
+                        <td class="text-center">{{ song.album_id }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> 
 
     </div>
 </template>

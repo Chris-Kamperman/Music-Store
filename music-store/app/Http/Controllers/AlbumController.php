@@ -24,12 +24,10 @@ class AlbumController extends Controller
             'title' => 'required',
             'artist_id' => 'required|exists:artists,id',
             'genre' => 'required',
-            'artwork' => 'required|image',
+            'artwork' => 'required|file|image',
         ]);
 
         $filepath = $request->file('artwork')->store('albums', 'public');
-        $request->replace(array_merge($request->all(), ['artwork' => $filepath]));
-
         $data = [
             'title' => $request->title,
             'artist_id' => $request->artist_id,

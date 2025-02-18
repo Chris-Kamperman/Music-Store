@@ -12,7 +12,9 @@ class Song extends Model
 
     protected $fillable = [
         'title',
-        'album_id'
+        'album_id',
+
+        'file',
     ];
 
     protected $hidden = [
