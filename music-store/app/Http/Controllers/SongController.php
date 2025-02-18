@@ -9,14 +9,6 @@ use App\Models\Song;
 class SongController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return Song::all();
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -48,14 +40,6 @@ class SongController extends Controller
             return response('File not found', 404);
         }
 
-        return response()->download(storage_path('app/private/' . $song->file), $song->title . '.mp3');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Song::FindOrFail($id);
+        return Storage::disk('local')->download($song->file, $song->title . '.mp3');
     }
 }
