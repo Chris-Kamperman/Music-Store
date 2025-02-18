@@ -22,6 +22,10 @@ export const user = reactive({
 
     isLoggedIn() {
         return this.token !== null;
+    },
+
+    isAdmin() {
+        return Boolean(this.user.is_admin);
     }
 });
 

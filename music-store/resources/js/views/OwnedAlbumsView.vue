@@ -24,6 +24,6 @@ onMounted(async () => {
 </script>
 
 <template>
-<MusicOverview class="w-100% h-100%" :albums="ownedAlbums"></MusicOverview>
+<MusicOverview class="w-100% h-100%" :albums="ownedAlbums" :canDownload="true"></MusicOverview>
 
 </template>

@@ -41,18 +41,10 @@ class AlbumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        return Album::with(['artist', 'songs'])->FindOrFail($id);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $album = Album::FindOrFail($id);
-        $album->update($request->all());
+        $album = Album::with(['artist', 'songs'])->FindOrFail($id);
+        $album->owned = $album->users()->where('user_id', $request->user()->id)->exists();
 
         return $album;
     }
@@ -78,15 +70,5 @@ class AlbumController extends Controller
         return Album::with(['artist', 'songs'])->whereHas('users', function($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        Album::destroy($id);
-
-        return response(204);
     }
 }

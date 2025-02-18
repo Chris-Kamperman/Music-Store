@@ -8,37 +8,37 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: () => import('./views/HomeView.vue'),
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: true, requiresAdmin: false }
         },
         {
             path: '/login',
             name: 'login',
             component: () => import('./views/LoginView.vue'),
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: false, requiresAdmin: false }
         },
         {
             path: '/register',
             name: 'register',
             component: () => import('./views/RegisterView.vue'),
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: false, requiresAdmin: false }
         },
         {
             path: '/album/:id',
             name: 'album',
             component: () => import('./views/AlbumView.vue'),
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: true, requiresAdmin: false }
         },
         {
             path: '/owned-albums',
             name: 'owned-albums',
             component: () => import('./views/OwnedAlbumsView.vue'),
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: true, requiresAdmin: false }
         },
         {
             path: '/admin',
             name: 'admin',
             component: () => import('./views/AdminView.vue'),
-            meta: { requiresAuth: true }
+            meta: { requiresAuth: true, requiresAdmin: true }
         },
         {
             path: '/:pathMatch(.*)*',
@@ -50,6 +50,10 @@ const router = createRouter({
 router.beforeEach((to, from) => {
     if(to.meta.requiresAuth && !user.isLoggedIn()) {
         return '/login';
+    }
+
+    if(to.meta.requiresAdmin && !user.isAdmin()) {
+        return '/';
     }
 
     return true;

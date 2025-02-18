@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Song;
 
 class SongController extends Controller
@@ -42,6 +43,11 @@ class SongController extends Controller
      */
     public function download(string $id) {
         $song = Song::findOrFail($id);
+
+        if(!Storage::disk('local')->exists($song->file)) {
+            return response('File not found', 404);
+        }
+
         return response()->download(storage_path('app/private/' . $song->file), $song->title . '.mp3');
     }
 

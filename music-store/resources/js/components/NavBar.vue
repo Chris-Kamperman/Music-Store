@@ -16,6 +16,7 @@
             <RouterLink to="/" class="text-lg font-bold text-gray-800 dark:text-gray-200">Music Store</RouterLink>
             <div v-if="user.isLoggedIn()" class="max-w-screen-xl flex flex-wrap items-end ml-auto p-4">
                 <RouterLink to="/owned-albums" class="text-gray-800 dark:text-gray-200 mx-5">Owned Music</RouterLink>
+                <RouterLink v-if="user.isAdmin()" to="/admin" class="text-gray-800 dark:text-gray-200 mx-5">Admin</RouterLink>
                 <RouterLink to="/login" class="text-gray-800 dark:text-gray-200 mx-5" @click="logout">Logout</RouterLink>
             </div>
         </div>
