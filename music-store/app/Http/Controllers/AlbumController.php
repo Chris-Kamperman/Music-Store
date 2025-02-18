@@ -54,8 +54,8 @@ class AlbumController extends Controller
      */
     public function buyAlbum(Request $request, string $id)
     {
-        $userId = $request->user()->id;
         $album = Album::FindOrFail($id);
+        $userId = $request->user()->id;
 
         // Add the album to the user's collection, but only if it's not already there
         $album->users()->syncWithoutDetaching($userId);
