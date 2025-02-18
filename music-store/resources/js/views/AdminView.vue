@@ -33,8 +33,6 @@
     };
 
     const addAlbum = async () => {
-        console.log(newAlbum.value);
-
         try {
             const formData = new FormData();
             formData.append('title', newAlbum.value.title);
@@ -74,7 +72,6 @@
             };
 
             const result = await axios.post('/api/songs', formData, headers);
-            console.log(result.data);
             songs.value.push(result.data);
         } catch (error) {
             console.error(error);
@@ -96,6 +93,7 @@
 
             artists.value = artistsResult.data;
             songs.value = songsResult.data;
+            console.log(songsResult.data);
             albums.value = albumsResult.data;
         } catch (error) {
             console.error(error);

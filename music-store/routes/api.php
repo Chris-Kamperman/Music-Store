@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/artists', ArtistController::class . '@index');
 
     // Song Routes
+    Route::get('/songs', SongController::class . '@index');
     Route::get('/songs/{id}/download', SongController::class . '@download')
         ->middleware(EnsureSongOwned::class);
 

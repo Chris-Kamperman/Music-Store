@@ -40,6 +40,18 @@ class SongControllerTest extends TestCase
     }
 
     #[Test]
+    public function test_that_index_returns_all_songs(): void
+    {
+        Song::factory(2)->create();
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->userToken)->getJson('/api/songs');
+
+        $response->assertStatus(200);
+        $this->assertCount(2, $response->json());
+        $response->assertJsonStructure([['id', 'title', 'album_id', 'file']]);
+    }
+
+    #[Test]
     public function test_that_store_stores_song(): void
     {
         $song = [
