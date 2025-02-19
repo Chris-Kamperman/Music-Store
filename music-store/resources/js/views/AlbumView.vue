@@ -27,18 +27,38 @@
 <template>
     <div class="flex flex-col items-center justify-center mx-80">
         <Album :album="album" />
-        <div class="relative bg-gray-300 shadow-sm border border-slate-200 rounded-lg w-1/2">
-            <table class="table-auto w-full">  
-                <thead>    
-                    <tr>      
-                        <th class="w-1/2 text-center">Song</th>      
-                        <th class="w-1/2 text-center">Artist</th>      
-                    </tr>  
-                </thead>  
-                <tbody>    
-                    <tr v-for="song in album.songs" :key="song.id">      
-                        <td class="text-center">{{ song.title }}</td>      
-                        <td class="text-center">{{ album.artist?.name }}</td>      
+        <div class="overflow-x-auto shadow-md rounded-lg mt-5 w-full border border-neutral-400">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs uppercase bg-neutral-400 sticky top-0">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Song title
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Artist
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Genre
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Duration
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="song in album.songs" :key="song.id" class="bg-neutral-300 border-b border-gray-200">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                            {{ song.title }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ album.artist.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ album.genre }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ song.duration }}
+                        </td>
                     </tr>
                 </tbody>
             </table>

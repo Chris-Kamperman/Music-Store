@@ -57,6 +57,7 @@ class SongControllerTest extends TestCase
         $song = [
             'title' => 'Test Song',
             'album_id' => 1,
+            'duration' => '00:03:00',
             'file' => UploadedFile::fake()->create('test.mp3'),
         ];
 
@@ -73,6 +74,7 @@ class SongControllerTest extends TestCase
     {
         $song = [
             'album_id' => 1,
+            'duration' => '00:03:00',
             'file' => UploadedFile::fake()->create('test.mp3'),
         ];
 
@@ -87,6 +89,7 @@ class SongControllerTest extends TestCase
     {
         $song = [
             'title' => 'Test Song',
+            'duration' => '00:03:00',
             'file' => UploadedFile::fake()->create('test.mp3'),
         ];
 
@@ -97,11 +100,27 @@ class SongControllerTest extends TestCase
     }
 
     #[Test]
+    public function test_that_store_fails_without_duration(): void
+    {
+        $song = [
+            'title' => 'Test Song',
+            'album_id' => 1,
+            'file' => UploadedFile::fake()->create('test.mp3'),
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->userToken)->postJson('/api/songs', $song);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('duration');
+    }
+
+    #[Test]
     public function test_that_store_fails_without_file(): void
     {
         $song = [
             'title' => 'Test Song',
             'album_id' => 1,
+            'duration' => '00:03:00',
         ];
 
 
@@ -117,6 +136,7 @@ class SongControllerTest extends TestCase
         $song = [
             'title' => 'Test Song',
             'album_id' => 1,
+            'duration' => '00:03:00',
             'file' => UploadedFile::fake()->create('test.pdf'),
         ];
 
@@ -134,6 +154,7 @@ class SongControllerTest extends TestCase
         $song = Song::create([
             'title' => 'Test Song',
             'album_id' => 1,
+            'duration' => '00:03:00',
             'file' => $songUrl,
         ]);
 
@@ -152,6 +173,7 @@ class SongControllerTest extends TestCase
         $song = Song::create([
             'title' => 'Test Song',
             'album_id' => 1,
+            'duration' => '00:03:00',
             'file' => 'non-existing-file.mp3',
         ]);
 

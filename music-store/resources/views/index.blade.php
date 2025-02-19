@@ -9,6 +9,6 @@
         @vite(['resources/css/app.css'])
     </head>
     <body>
-        <div class="h-screen w-screen" id="app"></div>
+        <div class="h-screen w-screen flex flex-col overflow-hidden" id="app"></div>
     </body>
 </html>
