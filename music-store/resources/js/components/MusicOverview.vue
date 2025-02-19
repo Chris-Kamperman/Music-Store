@@ -6,6 +6,7 @@
 
     const props = defineProps({
         albums: Object,
+        title: String,
         canDownload: {
             type: Boolean,
             default: false,
@@ -68,11 +69,12 @@
             console.error(error);
         }
     };
+
 </script>
 <template>
-    <div class="grid grid-cols-1 gap-4 p-4 h-100%">
-        <div class="bg-blue-300 w-1/1 p-4 m-4 flex flex-col rounded-lg shadow-xl">
-            <h1 class="text-2xl font-bold">Music Overview</h1>
+    <div v-if="albums.length !== 0" class="flex flex-col p-5 mb-10 h-full">
+        <div class="bg-neutral-300 w-full mb-5 p-4 flex flex-col rounded-lg shadow-xl">
+            <h1 class="text-2xl p-4 mx-1 font-bold"> {{ title }} </h1>
             <input v-model="search" type="text" class="w-1/1 p-4 mx-4 my-2 rounded-lg shadow-xl" placeholder="Search for music...">
             <select v-model="sortBy" class="w-1/1 p-4 mx-4 rounded-lg shadow-xl">
                 <option value="id" selected disabled>Sort by</option>
@@ -82,24 +84,28 @@
                 <option value="genre">Sort by Genre</option>
             </select>
         </div>
-        <div v-for="album in sortedAlbums" class="bg-blue-300 w-1/1 p-4 m-4 flex flex-col rounded-lg shadow-xl">
-            <RouterLink :to="'/album/' + album.id" class="flex flex-row">
-                <div class="grid place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-                    <img class="object-cover object-center w-full rounded-lg shadow-xl shadow-blue-gray-900/50" 
-                    :src="'/storage/' + album.artwork" alt="Album cover" />
+        <div class="p-2 w-full flex flex-col rounded-lg border-neutral-400 border-2 overflow-scroll">
+            <div v-for="album in sortedAlbums" class="mb-5 bg-neutral-300 p-6">
+                <RouterLink :to="'/album/' + album.id" class="flex flex-row items-center hover:bg-neutral-400 ">
+                    <img class="h-auto max-w-xs" :src="'/storage/' + album.artwork" alt="Album cover" />
+                    <div class="mx-5">
+                        <h1>Title: {{ album.title }}</h1>
+                        <p>Artist: {{ album.artist.name }} </p>
+                        <p>Genre: {{ album.genre }}</p>
+                    </div>
+                </RouterLink>
+                <hr class="h-px my-8 bg-black border-0">
+                <div v-for="song in album.songs" :key="song.id" class="bg-neutral-200 w-1/1 p-4 m-4 flex flex-row rounded-lg shadow-xl justify-between">
+                    <p>Title: {{ song.title }}</p>
+                    <div class="flex flex-row items-center">
+                        <p>Duration: {{ song.duration }}</p>
+                        <button v-if="canDownload" @click="download(song.title, song.id)" class="bg-blue-200 hover:bg-blue-300 rounded-lg mx-5 p-1">Download</button>
+                    </div>
                 </div>
-                <div>
-                    <h1>Title: {{ album.title }}</h1>
-                    <p>Artist: {{ album.artist.name }} </p>
-                    <p>Genre: {{ album.genre }}</p>
-                </div>
-            </RouterLink>
-            <hr class="h-px my-8 bg-black border-0">
-            <div v-for="song in album.songs" class="bg-blue-300 w-1/1 p-4 m-4 flex flex-row rounded-lg shadow-xl justify-between">
-                <p>Title: {{ song.title }}</p>
-                <button v-if="canDownload" @click="download(song.title, song.id)" class="bg-red-300">Download</button>
             </div>
         </div>
     </div>
-
+    <div v-else class="flex items-center justify-center h-full">
+        <h1 class="text-xl text-center">There are no albums available</h1>
+    </div>
 </template>

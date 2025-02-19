@@ -22,7 +22,7 @@
 </script>
 
 <template>
-    <div class="relative flex flex-col md:flex-row w-full mt-4 bg-gray-300 shadow-sm border border-slate-200 rounded-lg">
+    <div class="flex flex-row w-full mt-4 bg-neutral-300 shadow-sm border border-neutral-400 rounded-lg">
         <div class="relative p-2.5 md:w-1/5 shrink-0 overflow-hidden">
             <img :src="'/storage/' + album.artwork" class="h-full w-full rounded-md md:rounded-lg object-cover" />
         </div>
@@ -33,11 +33,9 @@
             <div v-if="album.songs" class="mb-2 text-slate-800 text-sm font-semibold"> Songs: {{ album.songs?.length }} </div>
         </div>
 
-        <button v-if="!album.owned" @click="buy" class="p-6 flex flex-col justify-center ml-auto bg-gray-400">
-            Buy
-        </button>
-        <div v-else class="p-6 flex flex-col justify-center ml-auto bg-gray-400">
-            You already own this album
+        <div @click="buy" class="p-6 flex flex-col justify-center m-5 ml-auto bg-neutral-400 hover:bg-neutral-500 rounded-lg">
+            <p v-if="!album.owned">Buy</p>
+            <p v-else>Owned</p>
         </div>
     </div> 
 </template>

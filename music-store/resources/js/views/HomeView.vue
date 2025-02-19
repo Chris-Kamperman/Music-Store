@@ -24,5 +24,5 @@
 </script>
 
 <template>
-    <MusicOverview :albums="albums" />
+    <MusicOverview :albums="albums" title="Music Overview"/>
 </template>
