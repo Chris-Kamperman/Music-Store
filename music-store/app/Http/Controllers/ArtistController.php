@@ -26,12 +26,4 @@ class ArtistController extends Controller
 
         return Artist::create($request->all());
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Artist::FindOrFail($id);
-    }
 }

@@ -48,14 +48,6 @@ class SongController extends Controller
             return response('File not found', 404);
         }
 
-        return response()->download(storage_path('app/private/' . $song->file), $song->title . '.mp3');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Song::FindOrFail($id);
+        return Storage::disk('local')->download($song->file, $song->title . '.mp3');
     }
 }
