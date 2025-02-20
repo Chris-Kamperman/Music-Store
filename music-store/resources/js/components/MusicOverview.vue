@@ -73,7 +73,7 @@
 
 </script>
 <template>
-    <div v-if="albums.length !== 0" class="flex flex-col p-5 mb-10 h-full">
+    <div v-if="albums.length !== 0" class="flex flex-col p-5 h-full">
         <div class="bg-neutral-300 w-full mb-5 p-4 flex flex-col rounded-lg shadow-xl">
             <h1 class="text-2xl p-4 mx-1 font-bold"> {{ title }} </h1>
             <input v-model="search" type="text" class="w-1/1 p-4 mx-4 my-2 rounded-lg shadow-xl" placeholder="Search for music...">
@@ -85,7 +85,7 @@
                 <option value="genre">Sort by Genre</option>
             </select>
         </div>
-        <div class="p-2 w-full flex flex-col rounded-lg border-neutral-400 border-2 overflow-scroll">
+        <div class="p-2 w-full flex flex-col rounded-lg border-neutral-400 border-2 overflow-scroll mb-20">
             <div v-for="album in sortedAlbums" class="mb-5 bg-neutral-300 p-6">
                 <RouterLink :to="'/album/' + album.id" class="flex flex-row items-center hover:bg-neutral-400 ">
                     <img class="h-auto max-w-xs" :src="'/storage/' + album.artwork" alt="Album cover" />

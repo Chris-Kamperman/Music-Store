@@ -107,7 +107,7 @@
 <template>
     <div class="mx-2 grid-cols-1 gap-6 grid-row-3 p-1 h-full">
         <!-- Artists -->
-        <div class="w-full p-1 flex flex-col h-[30%] mt-2">
+        <div class="w-full p-1 flex flex-col h-[30%]">
             <div class="h-1/5 mb-5">
                 <h1 class="text-2xl font-bold">Add a new artist</h1>
                 <form @submit.prevent="addArtist" action="#" class="flex items-center py-2">
@@ -142,7 +142,7 @@
         </div>
 
         <!-- Albums -->
-        <div class="w-full p-1 flex flex-col h-[30%]  mt-2">
+        <div class="w-full p-1 flex flex-col h-[30%]">
             <div class="h-1/5 mb-5">
                 <h1 class="text-2xl font-bold">Add a new album</h1>
                 <form @submit.prevent="addAlbum" action="#" class="flex items-center py-2">
@@ -195,7 +195,7 @@
         </div>
 
         <!-- Songs -->
-        <div class="w-full p-1 flex flex-col h-[30%] mt-2">
+        <div class="w-full p-1 flex flex-col h-[30%]">
             <div class="h-1/5 mb-5">
                 <h1 class="text-2xl font-bold">Add a new song</h1>
                 <form @submit.prevent="addSong" action="#" class="flex items-center py-2">
