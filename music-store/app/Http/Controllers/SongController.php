@@ -24,7 +24,7 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required',
             'album_id' => 'required|exists:albums,id',
-            'duration' => 'required|date_format:H:i:s',
+            'duration' => 'required|regex:/[0-9]+:[0-9][0-9]:[0-9][0-9]/',
             'file' => 'required|file|mimes:mp3',
         ]);
 
