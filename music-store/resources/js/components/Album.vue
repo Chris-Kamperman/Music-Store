@@ -16,6 +16,7 @@
 
             props.album.owned = true;
         } catch (error) {
+            alert('An error occurred while purchasing the album.');
             console.error(error);
         }
     }
