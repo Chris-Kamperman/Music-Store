@@ -28,6 +28,7 @@
 
             artists.value.push(result.data);
         } catch (error) {
+            alert('An error occurred while adding the artist');
             console.error(error);
         }
     };
@@ -52,6 +53,7 @@
 
             albums.value.push(result.data);
         } catch (error) {
+            alert('An error occurred while adding the album');
             console.error(error);
         }
     };
@@ -75,6 +77,7 @@
             const result = await axios.post('/api/songs', formData, headers);
             songs.value.push(result.data);
         } catch (error) {
+            alert('An error occurred while adding the song');
             console.error(error);
         }
     };
@@ -96,6 +99,7 @@
             songs.value = songsResult.data;
             albums.value = albumsResult.data;
         } catch (error) {
+            alert('An error occurred while fetching the data');
             console.error(error);
         }
     });

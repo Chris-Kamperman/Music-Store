@@ -19,6 +19,7 @@
 
             album.value = response.data;
         } catch (error) {
+            alert('An error occurred while fetching the album data.');
             console.error(error);
         }
     });

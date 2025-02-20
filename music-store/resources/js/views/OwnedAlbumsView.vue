@@ -17,6 +17,7 @@ onMounted(async () => {
 
         ownedAlbums.value = response.data;
     } catch (error) {
+        alert('An error occurred while fetching the albums data.');
         console.error(error);
     }
 });

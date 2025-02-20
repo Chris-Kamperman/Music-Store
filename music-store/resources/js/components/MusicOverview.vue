@@ -66,6 +66,7 @@
             a.download = `${title}.mp3`;
             a.click();
         } catch (error) {
+            alert('An error occurred while downloading the song.');
             console.error(error);
         }
     };
